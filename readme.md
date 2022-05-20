@@ -1,6 +1,5 @@
 # TGD-Discord - Delete all messages in a Discord channel or DM
 <!-- shields -->
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/solomonshalom/TGD-Discord?color=%235865f2&display_name=tag&label=TGD-Discord&style=flat-square)][greasyfork_url]
 [![GitHub Release Date](https://img.shields.io/github/release-date/solomonshalom/TGD-Discord?style=flat-square)](https://github.com/solomonshalom/TGD-Discord/releases)
 [![GitHub License](https://img.shields.io/github/license/solomonshalom/TGD-Discord?style=flat-square)](https://github.com/solomonshalom/TGD-Discord/blob/master/LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/solomonshalom/TGD-Discord?style=flat-square)](https://github.com/solomonshalom/TGD-Discord/stargazers)
