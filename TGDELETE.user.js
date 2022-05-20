@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Undiscord
 // @description     Delete all messages in a Discord channel or DM (Bulk deletion)
-// @version         5.0.3
+// @version         5.0.2
 // @author          victornpb
 // @homepageURL     https://github.com/victornpb/undiscord
 // @supportURL      https://github.com/victornpb/undiscord/issues
@@ -10,22 +10,22 @@
 // @match           https://*.discord.com/login
 // @license         MIT
 // @namespace       https://github.com/victornpb/deleteDiscordMessages
-// @downloadURL     https://raw.githubusercontent.com/victornpb/deleteDiscordMessages/master/deleteDiscordMessages.user.js
 // @contributionURL https://www.buymeacoffee.com/vitim
+// @downloadURL https://raw.githubusercontent.com/solomonshalom/TGD-Discord/master/TGDELETE.user.js
 // @grant           none
 // ==/UserScript==
 (function () {
   'use strict';
-
-  var version = "5.0.3";
-
+ 
+  var version = "5.0.2";
+ 
   var discordStyles = (`
 /* undiscord window */
 #undiscord.browser {
     box-shadow: var(--elevation-stroke), var(--elevation-high);
     overflow: hidden;
 }
-
+ 
 #undiscord.container,
 #undiscord .container {
     background-color: var(--background-secondary);
@@ -34,7 +34,7 @@
     cursor: default;
     flex-direction: column;
 }
-
+ 
 #undiscord .header {
     background-color: var(--background-tertiary);
     height: 48px;
@@ -44,7 +44,7 @@
     display: flex;
     color: var(--header-secondary);
 }
-
+ 
 #undiscord .header .icon {
     color: var(--interactive-normal);
     margin-right: 8px;
@@ -52,11 +52,11 @@
     width: 24;
     height: 24;
 }
-
+ 
 #undiscord .header .icon:hover {
     color: var(--interactive-hover);
 }
-
+ 
 #undiscord .header h3 {
     font-size: 16px;
     line-height: 20px;
@@ -66,11 +66,11 @@
     flex-shrink: 0;
     margin-right: 16px;
 }
-
+ 
 #undiscord .header .spacer {
     flex-grow: 1;
 }
-
+ 
 #undiscord .header .vert-divider {
     width: 1px;
     height: 24px;
@@ -78,7 +78,7 @@
     margin-right: 16px;
     flex-shrink: 0;
 }
-
+ 
 #undiscord legend,
 #undiscord label {
     display: block;
@@ -92,7 +92,7 @@
     font-family: var(--font-display);
     margin-bottom: 8px;
 }
-
+ 
 #undiscord .multiInput {
     display: flex;
     align-items: center;
@@ -105,15 +105,15 @@
     border: none;
     transition: border-color 0.2s ease-in-out 0s;
 }
-
+ 
 #undiscord .multiInput :first-child {
     flex-grow: 1;
 }
-
+ 
 #undiscord .multiInput button:last-child {
     margin-right: 4px;
 }
-
+ 
 #undiscord .input {
     font-size: 16px;
     box-sizing: border-box;
@@ -123,15 +123,15 @@
     background-color: var(--input-background);
     border: none;
     transition: border-color 0.2s ease-in-out 0s;
-
+ 
     padding: 10px;
     height: 40px;
 }
-
+ 
 #undiscord fieldset {
     margin-top: 16px;
 }
-
+ 
 #undiscord .input-wrapper {
     display: flex;
     align-items: center;
@@ -144,7 +144,7 @@
     border: none;
     transition: border-color 0.2s ease-in-out 0s;
 }
-
+ 
 #undiscord input[type="text"],
 #undiscord input[type="search"],
 #undiscord input[type="password"],
@@ -161,7 +161,7 @@
     padding: 10px;
     height: 40px;
 }
-
+ 
 #undiscord .divider,
 #undiscord hr {
     border: none;
@@ -169,7 +169,7 @@
     padding-bottom: 4px;
     border-bottom: 1px solid var(--background-modifier-accent);
 }
-
+ 
 #undiscord .sectionDescription {
     margin-bottom: 16px;
     color: var(--header-secondary);
@@ -177,12 +177,12 @@
     line-height: 20px;
     font-weight: 400;
 }
-
+ 
 #undiscord a {
     color: var(--text-link);
     text-decoration: none;
 }
-
+ 
 #undiscord .btn,
 #undiscord button {
     position: relative;
@@ -200,56 +200,56 @@
     line-height: 16px;
     padding: 2px 16px;
     user-select: none;
-
+ 
     /* sizeSmall */
     width: 60px;
     height: 32px;
     min-width: 60px;
     min-height: 32px;
-
+ 
     /* lookFilled colorPrimary */
     color: rgb(255, 255, 255);
     background-color: var(--button-secondary-background);
 }
-
+ 
 #undiscord .sizeMedium {
     width: 96px;
     height: 38px;
     min-width: 96px;
     min-height: 38px;
 }
-
+ 
 /* lookFilled colorPrimary */
 #undiscord .accent {
     background-color: var(--brand-experiment);
 }
-
+ 
 #undiscord .danger {
     background-color: var(--button-danger-background);
 }
-
+ 
 #undiscord .positive {
     background-color: var(--button-positive-background);
 }
-
-
+ 
+ 
 #undiscord .info {
     font-size: 12px;
     line-height: 16px;
     padding: 8px 10px;
     color: var(--text-muted);
 }
-
+ 
 /* Scrollbar */
 #undiscord .scroll::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
-
+ 
 #undiscord .scroll::-webkit-scrollbar-corner {
     background-color: transparent;
 }
-
+ 
 #undiscord .scroll::-webkit-scrollbar-thumb {
     background-clip: padding-box;
     border: 2px solid transparent;
@@ -257,25 +257,25 @@
     background-color: var(--scrollbar-thin-thumb);
     min-height: 40px;
 }
-
+ 
 #undiscord .scroll::-webkit-scrollbar-track {
     border-color: var(--scrollbar-thin-track);
     background-color: var(--scrollbar-thin-track);
     border: 2px solid var(--scrollbar-thin-track);
 }
-
+ 
 /* fade scrollbar */
 #undiscord .scroll::-webkit-scrollbar-thumb,
 #undiscord .scroll::-webkit-scrollbar-track {
     visibility: hidden;
 }
-
+ 
 #undiscord .scroll:hover::-webkit-scrollbar-thumb,
 #undiscord .scroll:hover::-webkit-scrollbar-track {
     visibility: visible;
 }
 `);
-
+ 
   var undiscordStyles = (`
 /**** Undiscord Button ****/
 #undicord-btn {
@@ -287,7 +287,7 @@
     color: var(--interactive-normal);
     flex: 0 0 auto;
 }
-
+ 
 #undicord-btn progress {
     position: absolute;
     top: 7px;
@@ -295,7 +295,7 @@
     width: 14px;
     height: 14px;
 }
-
+ 
 /**** Undiscord Interface ****/
 #undiscord {
     position: fixed;
@@ -304,27 +304,27 @@
     right: 10px;
     display: flex;
     flex-direction: column;
-    width:800px;
-    height: 80vh;
+    width: 610px;
     min-width: 610px;
-    max-width: 100vw;
+    max-width: 100%;
+    height: 448px;
     min-height: 448px;
-    max-height: 100vh;
+    max-height: 100%;
     color: var(--text-normal);
     border-radius: 4px;
     background-color: var(--background-secondary);
     box-shadow: var(--elevation-stroke), var(--elevation-high);
     will-change: top, left, width, height;
 }
-
+ 
 #undiscord .header .icon {
     cursor: pointer;
 }
-
+ 
 #undiscord .window-body {
     height: calc(100% - 48px);
 }
-
+ 
 #undiscord .sidebar {
     overflow: hidden scroll;
     overflow-y: auto;
@@ -335,14 +335,14 @@
     padding: 8px;
     background: var(--background-secondary);
 }
-
+ 
 #undiscord .main {
     display: flex;
     max-width: calc(100% - 250px);
     background-color: var(--background-primary);
     flex-grow: 1;
 }
-
+ 
 #undiscord #logArea {
     font-family: Consolas, Liberation Mono, Menlo, Courier, monospace;
     font-size: .75rem;
@@ -352,23 +352,23 @@
     flex-grow: 1;
     flex-grow: 1;
 }
-
+ 
 #undiscord .tbar {
     padding: 8px;
     background-color: var(--background-secondary-alt);
 }
-
+ 
 #undiscord .tbar button {
     margin-right: 4px;
     margin-bottom: 4px;
 }
-
+ 
 #undiscord .footer {
     cursor: se-resize;
 }
-
+ 
 /**** Elements ****/
-
+ 
 #undiscord summary {
     font-size: 16px;
     font-weight: 500;
@@ -384,17 +384,17 @@
     border-radius: 4px;
     flex-shrink: 0;
 }
-
+ 
 #undiscord fieldset {
     padding-left: 8px;
 }
-
+ 
 /* help link */
 #undiscord legend a {
     float: right;
     text-transform: initial;
 }
-
+ 
 #undiscord progress {
     height: 8px;
     margin-top: 4px;
@@ -402,52 +402,52 @@
     /* background-color: var(--background-primary);
     border-radius: 3px; */
 }
-
+ 
 /* #undiscord progress::-webkit-progress-value{
     background-color: var(--brand-experiment);
 } */
-
+ 
 /**** functional classes ****/
-
+ 
 #undiscord.redact .priv {
     display: none !important;
 }
-
+ 
 #undiscord:not(.redact) .mask {
     display: none !important;
 }
-
+ 
 #undiscord.redact [priv] {
     -webkit-text-security: disc !important;
 }
-
+ 
 #undiscord :disabled {
     display: none;
 }
-
+ 
 /**** layout misc ****/
-
+ 
 #undiscord,
 #undiscord * {
     box-sizing: border-box;
 }
-
+ 
 #undiscord .col {
     display: flex;
     flex-direction: column;
 }
-
+ 
 #undiscord .row {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-
+ 
 #undiscord .mb1 {
     margin-bottom: 8px;
 }
 `);
-
+ 
   var buttonHtml = (`
 <div id="undicord-btn" tabindex="0" role="button" aria-label="Delete Messages" title="Delete Messages with Undiscord">
     <svg aria-hidden="false" width="24" height="24" viewBox="0 0 24 24">
@@ -457,7 +457,7 @@
     <progress style="display:none;"></progress>
 </div>
 `);
-
+ 
   var undiscordTemplate = (`
 <div id="undiscord" class="browser container redact" style="display:none;">
     <div class="header">
@@ -678,6 +678,7 @@
             </div>
             <pre id="logArea" class="logarea scroll">
                 <center>
+                    <div><a href="https://github.com/victornpb/undiscord/discussions/350" target="_blank" style="color: var(--text-brand);">Tell me what you think about this update</a></div>
                     <div>Star <a href="{{HOME}}" target="_blank">this project</a> on GitHub!</div>
                     <div><a href="{{HOME}}/discussions" target="_blank">Issues or help</a></div>
                 </center>
@@ -691,9 +692,8 @@
         </div>
     </div>
 </div>
-
 `);
-
+ 
   /**
    * Delete all messages in a Discord channel or DM
    * @param {string} authToken Your authorization token
@@ -722,7 +722,7 @@
     let throttledTotalTime = 0;
     let offset = 0;
     let iterations = -1;
-
+ 
     const wait = async ms => new Promise(done => setTimeout(done, ms));
     const msToHMS = s => `${s / 3.6e6 | 0}h ${(s % 3.6e6) / 6e4 | 0}m ${(s % 6e4) / 1000 | 0}s`;
     const escapeHTML = html => html.replace(/[&<"']/g, m => ({ '&': '&amp;', '<': '&lt;', '"': '&quot;', '\'': '&#039;' })[m]);
@@ -731,7 +731,7 @@
     const ask = async msg => new Promise(resolve => setTimeout(() => resolve(window.confirm(msg)), 10));
     const printDelayStats = () => log.verb(`Delete delay: ${deleteDelay}ms, Search delay: ${searchDelay}ms`, `Last Ping: ${lastPing}ms, Average Ping: ${avgPing | 0}ms`);
     const toSnowflake = (date) => /:/.test(date) ? ((new Date(date).getTime() - 1420070400000) * Math.pow(2, 22)) : date;
-
+ 
     const log = {
       debug() { return extLogger ? extLogger('debug', arguments) : console.debug.apply(console, arguments); },
       info() { return extLogger ? extLogger('info', arguments) : console.info.apply(console, arguments); },
@@ -740,7 +740,7 @@
       error() { return extLogger ? extLogger('error', arguments) : console.error.apply(console, arguments); },
       success() { return extLogger ? extLogger('success', arguments) : console.info.apply(console, arguments); },
     };
-
+ 
     async function recurse() {
       let API_SEARCH_URL;
       if (guildId === '@me') {
@@ -749,13 +749,13 @@
       else {
         API_SEARCH_URL = `https://discord.com/api/v9/guilds/${guildId}/messages/`; // Server
       }
-
+ 
       const headers = {
         'Authorization': authToken
       };
-
+ 
       if (onProgress) onProgress(-1, 1);
-
+ 
       let resp;
       try {
         const s = Date.now();
@@ -777,7 +777,7 @@
       } catch (err) {
         return log.error('Search request threw an error:', err);
       }
-
+ 
       // not indexed yet
       if (resp.status === 202) {
         const w = (await resp.json()).retry_after * 1000;
@@ -787,7 +787,7 @@
         await wait(w);
         return await recurse();
       }
-
+ 
       if (!resp.ok) {
         // searching messages too fast
         if (resp.status === 429) {
@@ -798,22 +798,22 @@
           log.warn(`Being rate limited by the API for ${w}ms! Increasing search delay...`);
           printDelayStats();
           log.verb(`Cooling down for ${w * 2}ms before retrying...`);
-
+ 
           await wait(w * 2);
           return await recurse();
         } else {
           return log.error(`Error searching messages, API responded with status ${resp.status}!\n`, await resp.json());
         }
       }
-
+ 
       let regex;
-
+ 
       try {
         regex = new RegExp(pattern);
       } catch (e) {
         log.warn('Ignoring RegExp because pattern is malformed');
       }
-
+ 
       const data = await resp.json();
       const total = data.total_results;
       if (!grandTotal) grandTotal = total;
@@ -822,22 +822,22 @@
         return (msg.type === 0 || (msg.type >= 6 && msg.type <= 21) || (msg.pinned && includePinned)) && (!regex || msg.content.match(regex));
       });
       const skippedMessages = discoveredMessages.filter(msg => !messagesToDelete.find(m => m.id === msg.id));
-
+ 
       const end = () => {
         log.success(`Ended at ${new Date().toLocaleString()}! Total time: ${msToHMS(Date.now() - start.getTime())}`);
         printDelayStats();
         log.verb(`Rate Limited: ${throttledCount} times. Total time throttled: ${msToHMS(throttledTotalTime)}.`);
         log.debug(`Deleted ${delCount} messages, ${failCount} failed.\n`);
       };
-
+ 
       const etr = msToHMS((searchDelay * Math.round(total / 25)) + ((deleteDelay + avgPing) * total));
       log.info(`Total messages found: ${data.total_results}`, `(Messages in current page: ${data.messages.length}, To be deleted: ${messagesToDelete.length}, System: ${skippedMessages.length})`, `offset: ${offset}`);
       printDelayStats();
       log.verb(`Estimated time remaining: ${etr}`);
-
-
+ 
+ 
       if (messagesToDelete.length > 0 || skippedMessages.length > 0) {
-
+ 
         if (++iterations < 1) {
           log.verb('Waiting for your confirmation...');
           if (!await ask(`Do you want to delete ~${total} messages?\nEstimated time: ${etr}\n\n---- Preview ----\n` +
@@ -845,16 +845,16 @@
             return end(log.error('Aborted by you!'));
           log.verb('OK');
         }
-
+ 
         for (let i = 0; i < messagesToDelete.length; i++) {
           const message = messagesToDelete[i];
           if (stopHndl && stopHndl()) return end(log.error('Stopped by you!'));
-
+ 
           log.debug(`${((delCount + 1) / grandTotal * 100).toFixed(2)}% (${delCount + 1}/${grandTotal})`,
             `Deleting ID:${redact(message.id)} <b>${redact(message.author.username + '#' + message.author.discriminator)} <small>(${redact(new Date(message.timestamp).toLocaleString())})</small>:</b> <i>${redact(message.content).replace(/\n/g, '↵')}</i>`,
             message.attachments.length ? redact(JSON.stringify(message.attachments)) : '');
           if (onProgress) onProgress(delCount + 1, grandTotal);
-
+ 
           let resp;
           try {
             const s = Date.now();
@@ -871,7 +871,7 @@
             log.verb('Related object:', redact(JSON.stringify(message)));
             failCount++;
           }
-
+ 
           if (!resp.ok) {
             // deleting messages too fast
             if (resp.status === 429) {
@@ -890,34 +890,34 @@
               failCount++;
             }
           }
-
+ 
           await wait(deleteDelay);
         }
-
+ 
         if (skippedMessages.length > 0) {
           grandTotal -= skippedMessages.length;
           offset += skippedMessages.length;
           log.verb(`Found ${skippedMessages.length} system messages! Decreasing grandTotal to ${grandTotal} and increasing offset to ${offset}.`);
         }
-
+ 
         log.verb(`Searching next messages in ${searchDelay}ms...`, (offset ? `(offset: ${offset})` : ''));
         await wait(searchDelay);
-
+ 
         if (stopHndl && stopHndl()) return end(log.error('Stopped by you!'));
-
+ 
         return await recurse();
       } else {
         if (total - offset > 0) log.warn('Ended because API returned an empty page.');
         return end();
       }
     }
-
+ 
     log.success(`\nStarted at ${start.toLocaleString()}`);
     log.debug(`authorId="${redact(authorId)}" guildId="${redact(guildId)}" channelId="${redact(channelId)}" minId="${redact(minId)}" maxId="${redact(maxId)}" hasLink=${!!hasLink} hasFile=${!!hasFile}`);
     if (onProgress) onProgress(null, 1);
     return await recurse();
   }
-
+ 
   class Drag {
     /**
        * Make an element draggable/resizable
@@ -938,20 +938,20 @@
     constructor(targetElm, handleElm, options) {
       this.options = Object.assign({
         mode: 'move',
-
+ 
         minWidth: 200,
         maxWidth: Infinity,
         minHeight: 100,
         maxHeight: Infinity,
         xAxis: true,
         yAxis: true,
-
+ 
         draggingClass: 'drag',
-
+ 
         useMouseEvents: true,
         useTouchEvents: true,
       }, options);
-
+ 
       // Public properties
       this.minWidth = this.options.minWidth;
       this.maxWidth = this.options.maxWidth;
@@ -960,12 +960,12 @@
       this.xAxis = this.options.xAxis;
       this.yAxis = this.options.yAxis;
       this.draggingClass = this.options.draggingClass;
-
+ 
       /** @private */
       this._targetElm = targetElm;
       /** @private */
       this._handleElm = handleElm;
-
+ 
       const moveOp = (x, y) => {
         let l = x - offLeft;
         if (x - offLeft < 0) l = 0; //offscreen <-
@@ -973,13 +973,13 @@
         let t = y - offTop;
         if (y - offTop < 0) t = 0; //offscreen /\
         else if (y - offBottom > vh) t = vh - this._targetElm.clientHeight; //offscreen \/
-
+ 
         if(this.xAxis) this._targetElm.style.left = `${l}px`;
         if(this.yAxis) this._targetElm.style.top = `${t}px`;
         // NOTE: profilling on chrome translate wasn't faster than top/left as expected. And it also permanently creates a new layer, increasing vram usage.
         // this._targetElm.style.transform = `translate(${l}px, ${t}px)`;
       };
-
+ 
       const resizeOp = (x, y) => {
         let w = x - this._targetElm.offsetLeft - offRight;
         if (x - offRight > vw) w = Math.min(vw - this._targetElm.offsetLeft, this.maxWidth); //offscreen ->
@@ -989,42 +989,42 @@
         if (y - offBottom > vh) h = Math.min(vh - this._targetElm.offsetTop, this.maxHeight); //offscreen \/
         else if (y - offBottom - this._targetElm.offsetTop > this.maxHeight) h = this.maxHeight; //max height
         else if (y - offBottom - this._targetElm.offsetTop < this.minHeight) h = this.minHeight; //min height
-
+ 
         if(this.xAxis) this._targetElm.style.width = `${w}px`;
         if(this.yAxis) this._targetElm.style.height = `${h}px`;
       };
-
+ 
       // define which operation is performed on drag
       const operation = this.options.mode === 'move' ? moveOp : resizeOp;
-
+ 
       // offset from the initial click to the target boundaries
       let offTop, offLeft, offBottom, offRight;
-
+ 
       let vw = window.innerWidth;
       let vh = window.innerHeight;
-
-
+ 
+ 
       function dragStartHandler(e) {
         const touch = e.type === 'touchstart';
-
+ 
         if ((e.buttons === 1 || e.which === 1) || touch) {
           e.preventDefault();
-
+ 
           const x = touch ? e.touches[0].clientX : e.clientX;
           const y = touch ? e.touches[0].clientY : e.clientY;
-
+ 
           const targetOffset = this._targetElm.getBoundingClientRect();
-
+ 
           //offset from the click to the top-left corner of the target (drag)
           offTop = y - targetOffset.y;
           offLeft = x - targetOffset.x;
           //offset from the click to the bottom-right corner of the target (resize)
           offBottom = y - (targetOffset.y + targetOffset.height);
           offRight = x - (targetOffset.x + targetOffset.width);
-
+ 
           vw = window.innerWidth;
           vh = window.innerHeight;
-
+ 
           if (this.options.useMouseEvents) {
             document.addEventListener('mousemove', this._dragMoveHandler);
             document.addEventListener('mouseup', this._dragEndHandler);
@@ -1035,36 +1035,36 @@
             });
             document.addEventListener('touchend', this._dragEndHandler);
           }
-
+ 
           this._targetElm.classList.add(this.draggingClass);
         }
       }
-
+ 
       function dragMoveHandler(e) {
         e.preventDefault();
         let x, y;
-
+ 
         const touch = e.type === 'touchmove';
         if (touch) {
           const t = e.touches[0];
           x = t.clientX;
           y = t.clientY;
         } else { //mouse
-
+ 
           // If the button is not down, dispatch a "fake" mouse up event, to stop listening to mousemove
           // This happens when the mouseup is not captured (outside the browser)
           if ((e.buttons || e.which) !== 1) {
             this._dragEndHandler();
             return;
           }
-
+ 
           x = e.clientX;
           y = e.clientY;
         }
-
+ 
         operation(x, y);
       }
-
+ 
       function dragEndHandler(e) {
         if (this.options.useMouseEvents) {
           document.removeEventListener('mousemove', this._dragMoveHandler);
@@ -1076,7 +1076,7 @@
         }
         this._targetElm.classList.remove(this.draggingClass);
       }
-
+ 
       // We need to bind the handlers to this instance and expose them to methods enable and destroy
       /** @private */
       this._dragStartHandler = dragStartHandler.bind(this);
@@ -1084,10 +1084,10 @@
       this._dragMoveHandler = dragMoveHandler.bind(this);
       /** @private */
       this._dragEndHandler = dragEndHandler.bind(this);
-
+ 
       this.enable();
     }
-
+ 
     /**
      * Turn on the drag and drop of the instancea
      * @memberOf Drag
@@ -1104,7 +1104,7 @@
      */
     destroy() {
       this._targetElm.classList.remove(this.draggingClass);
-
+ 
       if (this.options.useMouseEvents) {
         this._handleElm.removeEventListener('mousedown', this._dragStartHandler);
         document.removeEventListener('mousemove', this._dragMoveHandler);
@@ -1117,26 +1117,26 @@
       }
     }
   }
-
+ 
   function createElm(html) {
     const temp = document.createElement('div');
     temp.innerHTML = html;
     return temp.removeChild(temp.firstElementChild);
   }
-
+ 
   function insertCss(css) {
     const style = document.createElement('style');
     style.appendChild(document.createTextNode(css));
     document.head.appendChild(style);
     return style;
   }
-
+ 
   const messagePickerCss = `
 body.undiscord-pick-message [data-list-id="chat-messages"] {
   background-color: var(--background-secondary-alt);
   box-shadow: inset 0 0 0px 2px var(--button-outline-brand-border);
 }
-
+ 
 body.undiscord-pick-message [id^="message-content-"]:hover {
   cursor: pointer;
   cursor: cell;
@@ -1167,7 +1167,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
   content: 'After 👇';
 }
 `;
-
+ 
   const messagePicker = {
     init() {
       insertCss(messagePickerCss);
@@ -1196,66 +1196,66 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
       });
     }
   };
-
+ 
   var messagePicker$1 = messagePicker;
   window.messagePicker = messagePicker;
-
+ 
   function getToken() {
     window.dispatchEvent(new Event('beforeunload'));
     const LS = document.body.appendChild(document.createElement('iframe')).contentWindow.localStorage;
     return JSON.parse(LS.token);
   }
-
+ 
   function getAuthorId() {
     const LS = document.body.appendChild(document.createElement('iframe')).contentWindow.localStorage;
     return JSON.parse(LS.user_id_cache);
   }
-
+ 
   function getGuildId() {
     const m = location.href.match(/channels\/([\w@]+)\/(\d+)/);
     if (m) return m[1];
     else alert('Could not the Guild ID!\nPlease make sure you are on a Server or DM.');
   }
-
+ 
   function getChannelId() {
     const m = location.href.match(/channels\/([\w@]+)\/(\d+)/);
     if (m) return m[2];
     else alert('Could not the Channel ID!\nPlease make sure you are on a Channel or DM.');
   }
-
+ 
   // ------------------------- User interface ------------------------------ //
-
+ 
   const HOME = 'https://github.com/victornpb/undiscord';
   const WIKI = 'https://github.com/victornpb/undiscord/wiki';
-
+ 
   const $ = s => undiscordWindow.querySelector(s);
-
+ 
   let undiscordWindow;
   let undiscordBtn;
-
+ 
   function initUI() {
-
+ 
     insertCss(discordStyles);
     insertCss(undiscordStyles);
-
+ 
     function replaceInterpolations(str, obj, removeMissing = false) {
       return str.replace(/\{\{([\w_]+)\}\}/g, (m, key) => obj[key] || (removeMissing ? '' : m));
     }
-
+ 
     const templateVariables = {
       VERSION: version,
       HOME,
       WIKI,
     };
-
+ 
     // create undiscord window
     const undiscordUI = replaceInterpolations(undiscordTemplate, templateVariables);
     undiscordWindow = createElm(undiscordUI);
     document.body.appendChild(undiscordWindow);
-
+ 
     new Drag(undiscordWindow, $('.header'), { mode: 'move' });
     new Drag(undiscordWindow, $('.footer'), { mode: 'resize' });
-
+ 
     // create undiscord button
     undiscordBtn = createElm(buttonHtml);
     undiscordBtn.onclick = toggleWindow;
@@ -1264,7 +1264,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
       if (toolbar) toolbar.appendChild(undiscordBtn);
     }
     mountBtn();
-
+ 
     // watch for changes and re-mount button if necessary
     const discordElm = document.querySelector('#app-mount');
     let observerThrottle = null;
@@ -1276,7 +1276,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
       }, 3000);
     });
     observer.observe(discordElm, { attributes: false, childList: true, subtree: true });
-
+ 
     function toggleWindow() {
       if (undiscordWindow.style.display !== 'none') {
         undiscordWindow.style.display = 'none';
@@ -1287,9 +1287,9 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
         undiscordBtn.style.color = 'var(--interactive-active)';
       }
     }
-
+ 
     messagePicker$1.init();
-
+ 
     // register event listeners
     $('#hide').onclick = toggleWindow;
     $('button#start').onclick = start;
@@ -1308,7 +1308,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
       const b = undiscordWindow.classList.toggle('redact');
       if (b) alert('This mode will attempt to hide personal information, so you can screen share / take screenshots.\nAlways double check you are not sharing sensitive information!');
     };
-
+ 
     $('#pickMessageAfter').onclick = async () => {
       // alert('Select a message on the chat.\nThe message below it will be deleted.');
       const id = await messagePicker$1.grab('after');
@@ -1319,7 +1319,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
       const id = await messagePicker$1.grab('before');
       if (id) $('input#maxId').value = id;
     };
-
+ 
     // const fileSelection = $('input#importJson');
     // fileSelection.onchange = () => {
     //   const files = fileSelection.files;
@@ -1333,16 +1333,16 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
     //     });
     //   }
     // };
-
+ 
   }
-
+ 
   let _stopFlag = false;
   const stopHndl = () => _stopFlag;
-
+ 
   async function start() {
     console.log('start');
     _stopFlag = false;
-
+ 
     // general
     const authToken = getToken();
     const authorId = $('input#authorId').value.trim();
@@ -1364,7 +1364,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
     //advanced
     const searchDelay = parseInt($('input#searchDelay').value.trim());
     const deleteDelay = parseInt($('input#deleteDelay').value.trim());
-
+ 
     // progress handler
     const progress = $('#progressBar');
     const progress2 = undiscordBtn.querySelector('progress');
@@ -1386,7 +1386,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
         percent.innerHTML = '...';
       }
     };
-
+ 
     let logArea = $('#logArea');
     let autoScroll = $('#autoScroll');
     const logger = (type = '', args) => {
@@ -1394,35 +1394,36 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
       logArea.insertAdjacentHTML('beforeend', `<div style="${style}">${Array.from(args).map(o => typeof o === 'object' ? JSON.stringify(o, o instanceof Error && Object.getOwnPropertyNames(o)) : o).join('\t')}</div>`);
       if (autoScroll.checked) logArea.querySelector('div:last-child').scrollIntoView(false);
     };
-
+ 
     logArea.innerHTML = '';
-
+ 
     // validate input
     if (!authToken) return logger('error', ['Could not detect the authorization token!']) || logger('info', ['Please make sure Undiscord is up to date']);
+    else if (!authorId) return logger('error', ['You must provide an Author ID!']);
     else if (!guildId) return logger('error', ['You must provide a Server ID!']);
-
+ 
     for (let i = 0; i < channelIds.length; i++) {
       $('#start').disabled = true;
       $('#stop').disabled = false;
       await deleteMessages(authToken, authorId, guildId, channelIds[i], minId || minDate, maxId || maxDate, content, hasLink, hasFile, includeNsfw, includePinned, pattern, searchDelay, deleteDelay, logger, stopHndl, onProg);
       stop(); // clear the running state
     }
-
+ 
   }
-
+ 
   function stop() {
     _stopFlag = true;
     $('#start').disabled = false;
     $('#stop').disabled = true;
-
+ 
     $('#progressBar').style.display = 'none';
     $('#progressPercent').style.display = 'none';
     undiscordBtn.querySelector('progress').style.display = 'none';
   }
-
+ 
   initUI();
-
-
+ 
+ 
   // ---- END Undiscord ----
-
+ 
 })();
