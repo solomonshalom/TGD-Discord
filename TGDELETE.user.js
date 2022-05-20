@@ -1,17 +1,16 @@
 // ==UserScript==
-// @name            Undiscord
+// @name            TGD-Discord
 // @description     Delete all messages in a Discord channel or DM (Bulk deletion)
 // @version         5.0.2
 // @author          victornpb
-// @homepageURL     https://github.com/victornpb/undiscord
-// @supportURL      https://github.com/victornpb/undiscord/issues
+// @homepageURL     https://github.com/solomonshalom/TGD-Discord
+// @supportURL      https://github.com/solomonshalom/TGD-Discord/issues
 // @match           https://*.discord.com/app
 // @match           https://*.discord.com/channels/*
 // @match           https://*.discord.com/login
 // @license         MIT
-// @namespace       https://github.com/victornpb/deleteDiscordMessages
-// @contributionURL https://www.buymeacoffee.com/vitim
-// @downloadURL https://raw.githubusercontent.com/solomonshalom/TGD-Discord/master/TGDELETE.user.js
+// @namespace       https://github.com/solomonshalom/TGD-Discord
+// @contributionURL https://ko-fi.com/solomonlijo
 // @grant           none
 // ==/UserScript==
 (function () {
@@ -20,14 +19,14 @@
   var version = "5.0.2";
  
   var discordStyles = (`
-/* undiscord window */
-#undiscord.browser {
+/* tgddiscord window */
+#tgddiscord.browser {
     box-shadow: var(--elevation-stroke), var(--elevation-high);
     overflow: hidden;
 }
  
-#undiscord.container,
-#undiscord .container {
+#tgddiscord.container,
+#tgddiscord .container {
     background-color: var(--background-secondary);
     border-radius: 8px;
     box-sizing: border-box;
@@ -35,7 +34,7 @@
     flex-direction: column;
 }
  
-#undiscord .header {
+#tgddiscord .header {
     background-color: var(--background-tertiary);
     height: 48px;
     align-items: center;
@@ -45,7 +44,7 @@
     color: var(--header-secondary);
 }
  
-#undiscord .header .icon {
+#tgddiscord .header .icon {
     color: var(--interactive-normal);
     margin-right: 8px;
     flex-shrink: 0;
@@ -53,11 +52,11 @@
     height: 24;
 }
  
-#undiscord .header .icon:hover {
+#tgddiscord .header .icon:hover {
     color: var(--interactive-hover);
 }
  
-#undiscord .header h3 {
+#tgddiscord .header h3 {
     font-size: 16px;
     line-height: 20px;
     font-weight: 500;
@@ -67,11 +66,11 @@
     margin-right: 16px;
 }
  
-#undiscord .header .spacer {
+#tgddiscord .header .spacer {
     flex-grow: 1;
 }
  
-#undiscord .header .vert-divider {
+#tgddiscord .header .vert-divider {
     width: 1px;
     height: 24px;
     background-color: var(--background-modifier-accent);
@@ -79,8 +78,8 @@
     flex-shrink: 0;
 }
  
-#undiscord legend,
-#undiscord label {
+#tgddiscord legend,
+#tgddiscord label {
     display: block;
     width: 100%;
     color: var(--header-secondary);
@@ -93,7 +92,7 @@
     margin-bottom: 8px;
 }
  
-#undiscord .multiInput {
+#tgddiscord .multiInput {
     display: flex;
     align-items: center;
     font-size: 16px;
@@ -106,15 +105,15 @@
     transition: border-color 0.2s ease-in-out 0s;
 }
  
-#undiscord .multiInput :first-child {
+#tgddiscord .multiInput :first-child {
     flex-grow: 1;
 }
  
-#undiscord .multiInput button:last-child {
+#tgddiscord .multiInput button:last-child {
     margin-right: 4px;
 }
  
-#undiscord .input {
+#tgddiscord .input {
     font-size: 16px;
     box-sizing: border-box;
     width: 100%;
@@ -128,11 +127,11 @@
     height: 40px;
 }
  
-#undiscord fieldset {
+#tgddiscord fieldset {
     margin-top: 16px;
 }
  
-#undiscord .input-wrapper {
+#tgddiscord .input-wrapper {
     display: flex;
     align-items: center;
     font-size: 16px;
@@ -145,11 +144,11 @@
     transition: border-color 0.2s ease-in-out 0s;
 }
  
-#undiscord input[type="text"],
-#undiscord input[type="search"],
-#undiscord input[type="password"],
-#undiscord input[type="datetime-local"],
-#undiscord input[type="number"] {
+#tgddiscord input[type="text"],
+#tgddiscord input[type="search"],
+#tgddiscord input[type="password"],
+#tgddiscord input[type="datetime-local"],
+#tgddiscord input[type="number"] {
     font-size: 16px;
     box-sizing: border-box;
     width: 100%;
@@ -162,15 +161,15 @@
     height: 40px;
 }
  
-#undiscord .divider,
-#undiscord hr {
+#tgddiscord .divider,
+#tgddiscord hr {
     border: none;
     margin-bottom: 24px;
     padding-bottom: 4px;
     border-bottom: 1px solid var(--background-modifier-accent);
 }
  
-#undiscord .sectionDescription {
+#tgddiscord .sectionDescription {
     margin-bottom: 16px;
     color: var(--header-secondary);
     font-size: 14px;
@@ -178,13 +177,13 @@
     font-weight: 400;
 }
  
-#undiscord a {
+#tgddiscord a {
     color: var(--text-link);
     text-decoration: none;
 }
  
-#undiscord .btn,
-#undiscord button {
+#tgddiscord .btn,
+#tgddiscord button {
     position: relative;
     display: flex;
     -webkit-box-pack: center;
@@ -212,7 +211,7 @@
     background-color: var(--button-secondary-background);
 }
  
-#undiscord .sizeMedium {
+#tgddiscord .sizeMedium {
     width: 96px;
     height: 38px;
     min-width: 96px;
@@ -220,20 +219,20 @@
 }
  
 /* lookFilled colorPrimary */
-#undiscord .accent {
+#tgddiscord .accent {
     background-color: var(--brand-experiment);
 }
  
-#undiscord .danger {
+#tgddiscord .danger {
     background-color: var(--button-danger-background);
 }
  
-#undiscord .positive {
+#tgddiscord .positive {
     background-color: var(--button-positive-background);
 }
  
  
-#undiscord .info {
+#tgddiscord .info {
     font-size: 12px;
     line-height: 16px;
     padding: 8px 10px;
@@ -241,16 +240,16 @@
 }
  
 /* Scrollbar */
-#undiscord .scroll::-webkit-scrollbar {
+#tgddiscord .scroll::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
  
-#undiscord .scroll::-webkit-scrollbar-corner {
+#tgddiscord .scroll::-webkit-scrollbar-corner {
     background-color: transparent;
 }
  
-#undiscord .scroll::-webkit-scrollbar-thumb {
+#tgddiscord .scroll::-webkit-scrollbar-thumb {
     background-clip: padding-box;
     border: 2px solid transparent;
     border-radius: 4px;
@@ -258,26 +257,26 @@
     min-height: 40px;
 }
  
-#undiscord .scroll::-webkit-scrollbar-track {
+#tgddiscord .scroll::-webkit-scrollbar-track {
     border-color: var(--scrollbar-thin-track);
     background-color: var(--scrollbar-thin-track);
     border: 2px solid var(--scrollbar-thin-track);
 }
  
 /* fade scrollbar */
-#undiscord .scroll::-webkit-scrollbar-thumb,
-#undiscord .scroll::-webkit-scrollbar-track {
+#tgddiscord .scroll::-webkit-scrollbar-thumb,
+#tgddiscord .scroll::-webkit-scrollbar-track {
     visibility: hidden;
 }
  
-#undiscord .scroll:hover::-webkit-scrollbar-thumb,
-#undiscord .scroll:hover::-webkit-scrollbar-track {
+#tgddiscord .scroll:hover::-webkit-scrollbar-thumb,
+#tgddiscord .scroll:hover::-webkit-scrollbar-track {
     visibility: visible;
 }
 `);
  
-  var undiscordStyles = (`
-/**** Undiscord Button ****/
+  var tgddiscordStyles = (`
+/**** tgddiscord Button ****/
 #undicord-btn {
     position: relative;
     width: auto;
@@ -296,8 +295,8 @@
     height: 14px;
 }
  
-/**** Undiscord Interface ****/
-#undiscord {
+/**** tgddiscord Interface ****/
+#tgddiscord {
     position: fixed;
     z-index: 99;
     top: 44px;
@@ -317,15 +316,15 @@
     will-change: top, left, width, height;
 }
  
-#undiscord .header .icon {
+#tgddiscord .header .icon {
     cursor: pointer;
 }
  
-#undiscord .window-body {
+#tgddiscord .window-body {
     height: calc(100% - 48px);
 }
  
-#undiscord .sidebar {
+#tgddiscord .sidebar {
     overflow: hidden scroll;
     overflow-y: auto;
     width: 270px;
@@ -336,14 +335,14 @@
     background: var(--background-secondary);
 }
  
-#undiscord .main {
+#tgddiscord .main {
     display: flex;
     max-width: calc(100% - 250px);
     background-color: var(--background-primary);
     flex-grow: 1;
 }
  
-#undiscord #logArea {
+#tgddiscord #logArea {
     font-family: Consolas, Liberation Mono, Menlo, Courier, monospace;
     font-size: .75rem;
     overflow: auto;
@@ -353,23 +352,23 @@
     flex-grow: 1;
 }
  
-#undiscord .tbar {
+#tgddiscord .tbar {
     padding: 8px;
     background-color: var(--background-secondary-alt);
 }
  
-#undiscord .tbar button {
+#tgddiscord .tbar button {
     margin-right: 4px;
     margin-bottom: 4px;
 }
  
-#undiscord .footer {
+#tgddiscord .footer {
     cursor: se-resize;
 }
  
 /**** Elements ****/
  
-#undiscord summary {
+#tgddiscord summary {
     font-size: 16px;
     font-weight: 500;
     line-height: 20px;
@@ -385,17 +384,17 @@
     flex-shrink: 0;
 }
  
-#undiscord fieldset {
+#tgddiscord fieldset {
     padding-left: 8px;
 }
  
 /* help link */
-#undiscord legend a {
+#tgddiscord legend a {
     float: right;
     text-transform: initial;
 }
  
-#undiscord progress {
+#tgddiscord progress {
     height: 8px;
     margin-top: 4px;
     flex-grow: 1;
@@ -403,53 +402,53 @@
     border-radius: 3px; */
 }
  
-/* #undiscord progress::-webkit-progress-value{
+/* #tgddiscord progress::-webkit-progress-value{
     background-color: var(--brand-experiment);
 } */
  
 /**** functional classes ****/
  
-#undiscord.redact .priv {
+#tgddiscord.redact .priv {
     display: none !important;
 }
  
-#undiscord:not(.redact) .mask {
+#tgddiscord:not(.redact) .mask {
     display: none !important;
 }
  
-#undiscord.redact [priv] {
+#tgddiscord.redact [priv] {
     -webkit-text-security: disc !important;
 }
  
-#undiscord :disabled {
+#tgddiscord :disabled {
     display: none;
 }
  
 /**** layout misc ****/
  
-#undiscord,
-#undiscord * {
+#tgddiscord,
+#tgddiscord * {
     box-sizing: border-box;
 }
  
-#undiscord .col {
+#tgddiscord .col {
     display: flex;
     flex-direction: column;
 }
  
-#undiscord .row {
+#tgddiscord .row {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
  
-#undiscord .mb1 {
+#tgddiscord .mb1 {
     margin-bottom: 8px;
 }
 `);
  
   var buttonHtml = (`
-<div id="undicord-btn" tabindex="0" role="button" aria-label="Delete Messages" title="Delete Messages with Undiscord">
+<div id="undicord-btn" tabindex="0" role="button" aria-label="Delete Messages" title="Delete Messages with tgddiscord">
     <svg aria-hidden="false" width="24" height="24" viewBox="0 0 24 24">
         <path fill="currentColor" d="M15 3.999V2H9V3.999H3V5.999H21V3.999H15Z"></path>
         <path fill="currentColor" d="M5 6.99902V18.999C5 20.101 5.897 20.999 7 20.999H17C18.103 20.999 19 20.101 19 18.999V6.99902H5ZM11 17H9V11H11V17ZM15 17H13V11H15V17Z"></path>
@@ -458,8 +457,8 @@
 </div>
 `);
  
-  var undiscordTemplate = (`
-<div id="undiscord" class="browser container redact" style="display:none;">
+  var tgddiscordTemplate = (`
+<div id="tgddiscord" class="browser container redact" style="display:none;">
     <div class="header">
         <svg class="icon" aria-hidden="false" width="24" height="24" viewBox="0 0 24 24">
             <path fill="currentColor" d="M15 3.999V2H9V3.999H3V5.999H21V3.999H15Z"></path>
@@ -467,7 +466,7 @@
                 d="M5 6.99902V18.999C5 20.101 5.897 20.999 7 20.999H17C18.103 20.999 19 20.101 19 18.999V6.99902H5ZM11 17H9V11H11V17ZM15 17H13V11H15V17Z">
             </path>
         </svg>
-        <h3>Undiscord</h3>
+        <h3>tgddiscord</h3>
         <div class="vert-divider"></div>
         <span> Bulk delete messages</span>
         <div class="spacer"></div>
@@ -658,7 +657,7 @@
             <hr>
             <div></div>
             <div class="info">
-                Undiscord {{VERSION}}
+                tgddiscord {{VERSION}}
                 <br> victornpb
             </div>
         </div>
@@ -678,7 +677,7 @@
             </div>
             <pre id="logArea" class="logarea scroll">
                 <center>
-                    <div><a href="https://github.com/victornpb/undiscord/discussions/350" target="_blank" style="color: var(--text-brand);">Tell me what you think about this update</a></div>
+                    <div><a href="https://github.com/solomonshalom/TGD-Discord" target="_blank" style="color: var(--text-brand);">Tell me what you think about this update</a></div>
                     <div>Star <a href="{{HOME}}" target="_blank">this project</a> on GitHub!</div>
                     <div><a href="{{HOME}}/discussions" target="_blank">Issues or help</a></div>
                 </center>
@@ -708,8 +707,8 @@
    * @param {boolean} includeNsfw Search in NSFW channels
    * @param {function(string, Array)} extLogger Function for logging
    * @param {function} stopHndl stopHndl used for stopping
-   * @author Victornpb <https://www.github.com/victornpb>
-   * @see https://github.com/victornpb/undiscord
+   * @author Solomon Shalom Lijo <https://www.github.com/solomonshalom>
+   * @see https://github.com/solomonshalom/TGD-Discord
    */
   async function deleteMessages(authToken, authorId, guildId, channelId, minId, maxId, content, hasLink, hasFile, includeNsfw, includePinned, pattern, searchDelay, deleteDelay, extLogger, stopHndl, onProgress) {
     const start = new Date();
@@ -1132,17 +1131,17 @@
   }
  
   const messagePickerCss = `
-body.undiscord-pick-message [data-list-id="chat-messages"] {
+body.tgddiscord-pick-message [data-list-id="chat-messages"] {
   background-color: var(--background-secondary-alt);
   box-shadow: inset 0 0 0px 2px var(--button-outline-brand-border);
 }
  
-body.undiscord-pick-message [id^="message-content-"]:hover {
+body.tgddiscord-pick-message [id^="message-content-"]:hover {
   cursor: pointer;
   cursor: cell;
   background: var(--background-message-automod-hover);
 }
-body.undiscord-pick-message [id^="message-content-"]:hover::after {
+body.tgddiscord-pick-message [id^="message-content-"]:hover::after {
   position: absolute;
   top: calc(50% - 11px);
   left: 4px;
@@ -1160,10 +1159,10 @@ body.undiscord-pick-message [id^="message-content-"]:hover::after {
   border-radius: 3px;
   content: 'This 👉';
 }
-body.undiscord-pick-message.before [id^="message-content-"]:hover::after {
+body.tgddiscord-pick-message.before [id^="message-content-"]:hover::after {
   content: 'Before 👆';
 }
-body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
+body.tgddiscord-pick-message.after [id^="message-content-"]:hover::after {
   content: 'After 👇';
 }
 `;
@@ -1174,7 +1173,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
     },
     grab(auxiliary) {
       return new Promise((resolve, reject) => {
-        document.body.classList.add('undiscord-pick-message');
+        document.body.classList.add('tgddiscord-pick-message');
         if (auxiliary) document.body.classList.add(auxiliary);
         function clickHandler(e) {
           const message = e.target.closest('[id^="message-content-"]');
@@ -1183,7 +1182,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
             e.stopPropagation();
             e.stopImmediatePropagation();
             if (auxiliary) document.body.classList.remove(auxiliary);
-            document.body.classList.remove('undiscord-pick-message');
+            document.body.classList.remove('tgddiscord-pick-message');
             document.removeEventListener('click', clickHandler);
             try {
               resolve(message.id.match(/message-content-(\d+)/)[1]);
@@ -1225,18 +1224,18 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
  
   // ------------------------- User interface ------------------------------ //
  
-  const HOME = 'https://github.com/victornpb/undiscord';
-  const WIKI = 'https://github.com/victornpb/undiscord/wiki';
+  const HOME = 'https://github.com/solomonshalom/TGD-Discord';
+  const WIKI = 'https://github.com/solomonshalom/TGD-Discord/wiki';
  
-  const $ = s => undiscordWindow.querySelector(s);
+  const $ = s => tgddiscordWindow.querySelector(s);
  
-  let undiscordWindow;
-  let undiscordBtn;
+  let tgddiscordWindow;
+  let tgddiscordBtn;
  
   function initUI() {
  
     insertCss(discordStyles);
-    insertCss(undiscordStyles);
+    insertCss(tgddiscordStyles);
  
     function replaceInterpolations(str, obj, removeMissing = false) {
       return str.replace(/\{\{([\w_]+)\}\}/g, (m, key) => obj[key] || (removeMissing ? '' : m));
@@ -1248,20 +1247,20 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
       WIKI,
     };
  
-    // create undiscord window
-    const undiscordUI = replaceInterpolations(undiscordTemplate, templateVariables);
-    undiscordWindow = createElm(undiscordUI);
-    document.body.appendChild(undiscordWindow);
+    // create tgddiscord window
+    const tgddiscordUI = replaceInterpolations(tgddiscordTemplate, templateVariables);
+    tgddiscordWindow = createElm(tgddiscordUI);
+    document.body.appendChild(tgddiscordWindow);
  
-    new Drag(undiscordWindow, $('.header'), { mode: 'move' });
-    new Drag(undiscordWindow, $('.footer'), { mode: 'resize' });
+    new Drag(tgddiscordWindow, $('.header'), { mode: 'move' });
+    new Drag(tgddiscordWindow, $('.footer'), { mode: 'resize' });
  
-    // create undiscord button
-    undiscordBtn = createElm(buttonHtml);
-    undiscordBtn.onclick = toggleWindow;
+    // create tgddiscord button
+    tgddiscordBtn = createElm(buttonHtml);
+    tgddiscordBtn.onclick = toggleWindow;
     function mountBtn() {
       const toolbar = document.querySelector('#app-mount [class^=toolbar]');
-      if (toolbar) toolbar.appendChild(undiscordBtn);
+      if (toolbar) toolbar.appendChild(tgddiscordBtn);
     }
     mountBtn();
  
@@ -1272,19 +1271,19 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
       if (observerThrottle) return;
       observerThrottle = setTimeout(() => {
         observerThrottle = null;
-        if (!discordElm.contains(undiscordBtn)) mountBtn(); // re-mount the button to the toolbar
+        if (!discordElm.contains(tgddiscordBtn)) mountBtn(); // re-mount the button to the toolbar
       }, 3000);
     });
     observer.observe(discordElm, { attributes: false, childList: true, subtree: true });
  
     function toggleWindow() {
-      if (undiscordWindow.style.display !== 'none') {
-        undiscordWindow.style.display = 'none';
-        undiscordBtn.style.color = 'var(--interactive-normal)';
+      if (tgddiscordWindow.style.display !== 'none') {
+        tgddiscordWindow.style.display = 'none';
+        tgddiscordBtn.style.color = 'var(--interactive-normal)';
       }
       else {
-        undiscordWindow.style.display = '';
-        undiscordBtn.style.color = 'var(--interactive-active)';
+        tgddiscordWindow.style.display = '';
+        tgddiscordBtn.style.color = 'var(--interactive-active)';
       }
     }
  
@@ -1305,7 +1304,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
       $('input#guildId').value = getGuildId();
     };
     $('#redact').onchange = () => {
-      const b = undiscordWindow.classList.toggle('redact');
+      const b = tgddiscordWindow.classList.toggle('redact');
       if (b) alert('This mode will attempt to hide personal information, so you can screen share / take screenshots.\nAlways double check you are not sharing sensitive information!');
     };
  
@@ -1367,7 +1366,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
  
     // progress handler
     const progress = $('#progressBar');
-    const progress2 = undiscordBtn.querySelector('progress');
+    const progress2 = tgddiscordBtn.querySelector('progress');
     const percent = $('#progressPercent');
     const onProg = (value, max) => {
       if (value && max && value > max) max = value;
@@ -1398,7 +1397,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
     logArea.innerHTML = '';
  
     // validate input
-    if (!authToken) return logger('error', ['Could not detect the authorization token!']) || logger('info', ['Please make sure Undiscord is up to date']);
+    if (!authToken) return logger('error', ['Could not detect the authorization token!']) || logger('info', ['Please make sure tgddiscord is up to date']);
     else if (!authorId) return logger('error', ['You must provide an Author ID!']);
     else if (!guildId) return logger('error', ['You must provide a Server ID!']);
  
@@ -1418,12 +1417,12 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
  
     $('#progressBar').style.display = 'none';
     $('#progressPercent').style.display = 'none';
-    undiscordBtn.querySelector('progress').style.display = 'none';
+    tgddiscordBtn.querySelector('progress').style.display = 'none';
   }
  
   initUI();
  
  
-  // ---- END Undiscord ----
+  // ---- END tgddiscord ----
  
 })();
