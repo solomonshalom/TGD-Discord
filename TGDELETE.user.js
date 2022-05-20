@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name            TGD-Discord
 // @description     Delete all messages in a Discord channel or DM (Bulk deletion)
-// @version         5.0.2
-// @author          victornpb
+// @version         7.0.0
+// @author          Solomon Shalom Lijo
 // @homepageURL     https://github.com/solomonshalom/TGD-Discord
 // @supportURL      https://github.com/solomonshalom/TGD-Discord/issues
 // @match           https://*.discord.com/app
