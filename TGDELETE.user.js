@@ -658,7 +658,7 @@
             <div></div>
             <div class="info">
                 tgddiscord {{VERSION}}
-                <br> victornpb
+                <br> Solomon Shalom Lijo
             </div>
         </div>
         <div class="main col">

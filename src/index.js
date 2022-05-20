@@ -14,8 +14,8 @@ import { getToken, getAuthorId, getGuildId, getChannelId } from './utils/getIds'
 
 // ------------------------- User interface ------------------------------ //
 
-const HOME = 'https://github.com/victornpb/undiscord';
-const WIKI = 'https://github.com/victornpb/undiscord/wiki';
+const HOME = 'https://github.com/solomonshalom/TGD-Discord';
+const WIKI = 'https://github.com/solomonshalom/TGD-Discord/wiki';
 
 const $ = s => undiscordWindow.querySelector(s);
 

@@ -20,12 +20,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/victornpb/undiscord.git"
+    "url": "git+https://github.com/solomonshalom/TGD-Discord.git"
   },
   "bugs": {
-    "url": "https://github.com/victornpb/undiscord/issues"
+    "url": "https://github.com/solomonshalom/TGD-Discord/issues"
   },
-  "homepage": "https://github.com/victornpb/undiscord",
+  "homepage": "https://github.com/solomonshalom/TGD-Discord",
   "author": "victornpb",
   "main": "deleteDiscordMessages.user.js",
   "module": "dist/foo-bar.esm.js",
